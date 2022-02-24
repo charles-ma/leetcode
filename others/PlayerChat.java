@@ -28,7 +28,7 @@ import java.util.*;
 
 public class PlayerChat {
     public static void main(String... args) {
-        String[] tests = new String[]{"chatchat", "chcathat", "chatchht"};
+        String[] tests = new String[]{"chatchat", "chcathat", "chatchht", "chachatchatt"};
         for (String t : tests) {
             System.out.println(new PlayerChat().solve(t));
         }
