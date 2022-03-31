@@ -7,19 +7,16 @@
 // @lc code=start
 class Solution {
     public int hIndex(int[] citations) {
-        int n = citations.length;
-        int[] bucket = new int[n + 1];
+        int[] buckets = new int[citations.length + 1];
         for (int c : citations) {
-            if (c >= n) bucket[n]++;
-            else bucket[c]++;
+            if (c >= citations.length) buckets[citations.length]++;
+            else buckets[c]++;
         }
 
-        int h = 0;
-        int count = 0;
-        for (int i = n; i >= 0; i--) {
-            count += bucket[i];
-            if (count > i) return Math.max(i, h);
-            else h = count;
+        int v = 0;
+        for (int i = citations.length; i >= 0; i--) {
+            v += buckets[i];
+            if (v >= i) return Math.min(v, i);
         }
 
         return 0;
