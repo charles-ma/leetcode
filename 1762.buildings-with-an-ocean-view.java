@@ -9,19 +9,19 @@ class Solution {
     public int[] findBuildings(int[] heights) {
         Stack<Integer> stack = new Stack<Integer>();
 
-        for (int i = 0; i < heights.length; i++) {
-            while (stack.size() != 0 && heights[stack.peek()] <= heights[i])
-                stack.pop();
-            stack.push(i);
+        for (int i = heights.length - 1; i >= 0; i--) {
+            int h = heights[i];
+            if (stack.isEmpty() || heights[stack.peek()] < h) {
+                stack.push(i);
+            }
         }
 
-        int n = stack.size();
-        int[] result = new int[n];
-        for (int i = n - 1; i >= 0; i--) {
-            result[i] = stack.pop();
+        int size = stack.size();
+        int[] r = new int[size];
+        for (int i = 0; i < size; i++) {
+            r[i] = stack.pop();
         }
-
-        return result;
+        return r;
     }
 }
 // @lc code=end
