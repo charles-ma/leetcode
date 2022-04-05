@@ -7,30 +7,30 @@
 // @lc code=start
 class Solution {
     public String minRemoveToMakeValid(String s) {
-        String tmp = helper(s, ')');
-        return new StringBuilder(helper(new StringBuilder(tmp).reverse().toString(), '(')).reverse().toString();
+        return removeParen(removeParen(s, '('), ')');
     }
 
-    private String helper(String s, char c) {
-        int i = 0, count = 0;
+    private String removeParen(String s, char p) {
         StringBuilder sb = new StringBuilder();
+        int count = 0;
 
-        while (i < s.length()) {
-            char ch = s.charAt(i);
-            if (ch == ')' || ch == '(') {
-                if (ch != c) count++;
-                else count--;
-                if (count < 0) {
-                    count = 0;
-                    i++; continue;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(' || c == ')') {
+                if (c == p) {
+                    count++;
+                } else {
+                    count--;
+                    if (count < 0) {
+                        count = 0;
+                        continue;
+                    }
                 }
             }
-
-            sb.append(ch);
-            i++;
+            sb.append(c);
         }
 
-        return sb.toString();
+        return sb.reverse().toString();
     }
 }
 // @lc code=end
