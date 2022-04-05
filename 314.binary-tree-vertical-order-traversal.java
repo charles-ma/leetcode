@@ -21,46 +21,41 @@
  * }
  */
 class Node {
-    TreeNode tn;
+    TreeNode treeNode;
     int col;
     
-    Node(TreeNode tn, int col) {
-        this.tn = tn;
+    Node(TreeNode treeNode, int col) {
+        this.treeNode = treeNode;
         this.col = col;
     }
 }
 
-
 class Solution {
-    private Map<Integer, List<Integer>> m = new HashMap<Integer, List<Integer>>();
-    private int min = 0, max = 0;
+    private TreeMap<Integer, List<Integer>> map = new TreeMap<Integer, List<Integer>>();
     
     public List<List<Integer>> verticalOrder(TreeNode root) {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
         if (root == null) return result;
-
+        
         Queue<Node> q = new LinkedList<Node>();
         q.offer(new Node(root, 0));
         
         while (q.size() != 0) {
-            Node n = q.poll();
-            int col = n.col;
-            TreeNode tn = n.tn;
-            int v = tn.val;
-
-            m.putIfAbsent(col, new ArrayList<Integer>());
-            m.get(col).add(v);
-            min = Math.min(min, col);
-            max = Math.max(max, col);
-
-            if (tn.left != null) q.offer(new Node(tn.left, col - 1));
-            if (tn.right != null) q.offer(new Node(tn.right, col + 1));
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                Node n = q.poll();
+                List<Integer> l = map.getOrDefault(n.col, new ArrayList<Integer>());
+                l.add(n.treeNode.val);
+                map.put(n.col, l);
+                
+                if (n.treeNode.left != null) q.offer(new Node(n.treeNode.left, n.col - 1));
+                if (n.treeNode.right != null) q.offer(new Node(n.treeNode.right, n.col + 1));
+            }
         }
 
-        for (int i = min; i <= max; i++) {
-            result.add(m.get(i));
+        for (int key : map.keySet()) {
+            result.add(map.get(key));
         }
-        
         return result;
     }
 }
