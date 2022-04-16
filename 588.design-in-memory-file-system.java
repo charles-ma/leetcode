@@ -54,7 +54,7 @@ class FileSystem {
         if (names.length == 0) return root;
 
         String name = names[0];
-        if (name.equals(""))
+        if (name.isEmpty())
             return findPath(root, Arrays.copyOfRange(names, 1, names.length), edit);
         
         if (!edit && !root.children.containsKey(name)) return null;
