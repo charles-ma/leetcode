@@ -7,22 +7,21 @@
 // @lc code=start
 class Solution {
     public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {
-        int i = 0, j = 0;
         List<int[]> result = new ArrayList<int[]>();
+        int p = 0, q = 0;
 
-        while (i < firstList.length && j < secondList.length) {
-            int[] f = firstList[i];
-            int[] s = secondList[j];
+        while (p < firstList.length && q < secondList.length) {
+            int[] a1 = firstList[p];
+            int[] a2 = secondList[q];
 
-            if (!(f[0] > s[1] || s[0] > f[1])) {
-                result.add(new int[]{Math.max(f[0], s[0]), Math.min(f[1], s[1])});
-            }
+            if (a1[1] >= a2[0] && a2[1] >= a1[0])
+                result.add(new int[]{Math.max(a1[0], a2[0]), Math.min(a1[1], a2[1])});
 
-            if (s[1] > f[1]) i++;
-            else j++;
+            if (a1[1] < a2[1]) p++;
+            else q++;
         }
 
-        int[][] r = new int[result.size()][2];
+        int[][] r = new int[result.size()][];
         result.toArray(r);
         return r;
     }
