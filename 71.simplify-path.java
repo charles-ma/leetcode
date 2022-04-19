@@ -7,19 +7,18 @@
 // @lc code=start
 class Solution {
     public String simplifyPath(String path) {
-        String[] parts = path.split("/");
-        Stack<String> stack = new Stack<String>();
-
-        for (String part : parts) {
-            if (part.equals("..")) {
-                if (!stack.isEmpty()) stack.pop();
-            } else if (!part.equals(".") && !part.isEmpty()) {
-                stack.push(part);
+        List<String> stack = new LinkedList<String>();
+        String[] paths = path.split("/");
+        
+        for (String dir : paths) {
+            if (dir.equals("..")) {
+                if (!stack.isEmpty()) stack.remove(stack.size() - 1);
+            } else if (!dir.isEmpty() && !dir.equals(".")){
+                stack.add(dir);
             }
         }
 
-        List<String> result = new ArrayList<String>(stack);
-        return "/" + String.join("/", result);
+        return "/" + String.join("/", stack);
     }
 }
 // @lc code=end
