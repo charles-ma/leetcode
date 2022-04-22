@@ -6,32 +6,28 @@
 
 // @lc code=start
 class Solution {
-    private int[] sums;
-    Random r;
+    private int[] w;
+    private Random r;
+    private int sum;
     
     public Solution(int[] w) {
-        sums = new int[w.length];
-        int sum = 0;
-        for (int i = 0; i < w.length; i++) {
-            sum += w[i];
-            sums[i] = sum;
+        this.w = w;
+        this.r = new Random();
+        for (int i = 0; i < this.w.length; i++) {
+            this.sum += this.w[i];
+            this.w[i] = this.sum;
         }
-
-        r = new Random();
     }
-    
-    public int pickIndex() {
-        int v = r.nextInt(sums[sums.length - 1]) + 1;
 
-        int i = 0, j = sums.length - 1;
+    public int pickIndex() {
+        int n = r.nextInt(sum) + 1;
+        int i = 0, j = w.length;
+
         while (i < j) {
             int mid = i + (j - i) / 2;
-
-            if (sums[mid] < v) {
-                i = mid + 1;
-            } else {
-                j = mid;
-            }
+            
+            if (w[mid] < n) i = mid + 1;
+            else j = mid;
         }
 
         return i;
