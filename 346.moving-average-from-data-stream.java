@@ -6,24 +6,23 @@
 
 // @lc code=start
 class MovingAverage {
-    private Queue<Integer> q;
+
+    private LinkedList<Integer> queue = new LinkedList<Integer>();
     private int size;
     private int sum;
     
     public MovingAverage(int size) {
-        q = new LinkedList<Integer>();
         this.size = size;
     }
     
     public double next(int val) {
-        q.offer(val);
-        sum += val;
-
-        if (q.size() > size) {
-            sum -= q.poll();
+        queue.add(val);
+        if (queue.size() > size) {
+            int v = queue.remove(0);
+            sum -= v;
         }
-
-        return (double)sum / q.size();
+        sum += val;
+        return 1.0 * sum / queue.size();
     }
 }
 
