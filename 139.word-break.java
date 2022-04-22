@@ -6,26 +6,25 @@
 
 // @lc code=start
 class Solution {
-    private boolean[] dp;
-    
     public boolean wordBreak(String s, List<String> wordDict) {
-        dp = new boolean[s.length() + 1];
-        dp[s.length()] = true;
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true;
 
-        Set<String> dict = new HashSet<String>();
-        for (String word : wordDict) dict.add(word);
+        Set<String> set = new HashSet<String>();
+        for (String word : wordDict) {
+            set.add(word);
+        }
 
-        for (int i = s.length(); i >= 0; i--) {
-            for (int j = i; j < s.length(); j++) {
-                String sub = s.substring(i, j + 1);
-                if (dict.contains(sub) && dp[j + 1]) {
-                    dp[i] = true;
-                    break;
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                String sub = s.substring(j, i);
+                if (dp[j] && set.contains(sub)) {
+                    dp[i] = true; break;
                 }
             }
         }
 
-        return dp[0];
+        return dp[s.length()];
     }
 }
 // @lc code=end
