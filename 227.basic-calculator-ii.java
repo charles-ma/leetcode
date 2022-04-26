@@ -12,37 +12,38 @@ class Solution {
         int i = 0;
         while (i < s.length()) {
             char c = s.charAt(i);
-            if (c == '+' || c == '-') {
-                stack.push("" + c);
-                i++;
-            } else if (c == '*' || c == '/') {
-                while (i < s.length() && !Character.isDigit(s.charAt(i))) i++;
-                int start = i;
-                while (i < s.length() && Character.isDigit(s.charAt(i))) i++;
+            if (c == '+' || c == '-' || c == '*' || c == '/') {
+                stack.push(c + "");
+                i++; continue;
+            } 
 
-                int second = Integer.parseInt(s.substring(start, i));
-                int first = Integer.parseInt(stack.pop());
-
-                int r = first * second;
-                if (c == '/') r = first / second;
-
-                stack.push("" + r);
-            } else if (Character.isDigit(c)) {
-                int start = i;
-                while (i < s.length() && Character.isDigit(s.charAt(i))) i++;
-                stack.push(s.substring(start, i));
-            } else {
+            int p = i;
+            while (i < s.length() && Character.isDigit(s.charAt(i))) {
                 i++;
             }
+            String value = s.substring(p, i);
+            if (!value.isEmpty()) {
+                if (stack.isEmpty()) stack.push(value);
+                else {
+                    String op = stack.pop();
+                    if (op.equals("-")) stack.push("-" + value);
+                    else if (op.equals("+")) stack.push(value);
+                    else {
+                        int first = Integer.parseInt(stack.pop());
+                        int sec = Integer.parseInt(value);
+                        int r = op.equals("*") ? first * sec : first / sec;
+                        stack.push(r + "");
+                    }
+                }
+                continue;
+            }
+
+            i++;
         }
 
-        List<String> l = new ArrayList<String>(stack);
-        int sum = 0, flag = 1;
-        for (String token : l) {
-            System.out.println(token);
-            if (token.equals("-")) flag = -1;
-            else if(token.equals("+")) flag = 1;
-            else sum += flag * Integer.parseInt(token);
+        int sum = 0;
+        for (String sub : stack) {
+            sum += Integer.parseInt(sub);
         }
 
         return sum;
