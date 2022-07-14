@@ -1,3 +1,3 @@
 # leetcode
 
-Leetcode solutions in Java
+Leetcode solutions
